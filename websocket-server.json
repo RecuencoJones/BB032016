@@ -1,0 +1,336 @@
+[
+  {
+    "id": "3b57759.b72288a",
+    "type": "websocket-listener",
+    "z": "5acb2f70.5e63",
+    "path": "/ws/broadcast",
+    "wholemsg": "false"
+  },
+  {
+    "id": "3f57dd70.162882",
+    "type": "template",
+    "z": "5acb2f70.5e63",
+    "name": "Index.html",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "<!DOCTYPE html>\n<html>\n    <head>\n        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js\"></script>\n        \n        <style>\n            html, body {\n                margin: 0;\n                height: 100%;\n                width: 100%;\n            }\n            \n            .chat-layout {\n                height: 100%;\n                width: 100%;\n            }\n        \n            .chat-upper {\n                height: calc(100% - 50px);\n                width: 100%;\n                display: inline-flex;\n            }\n            \n            .chat-lower {\n                box-sizing: border-box;\n                width: 100%;\n                border: 1px solid black;\n                position: fixed;\n                bottom: 0;\n                height: 50px;\n            }\n            \n            .users-list {\n                box-sizing: border-box;\n                width: 200px;\n                border: 1px solid black;\n                padding: 10px;\n                overflow: auto;\n            }\n            \n            .messages-list {\n                box-sizing: border-box;\n                height: 100%;\n                width: calc(100% - 200px);\n                border: 1px solid black;\n                overflow: auto;\n            }\n        </style>\n    </head>\n    <body>\n        <div class=\"chat-layout\">\n            <div class=\"chat-upper\">\n                <div class=\"users-list\">\n                    Connected users\n                    <hr/>\n                    <div id=\"users\"></div>\n                </div>\n                <div class=\"messages-list\">\n                    <div id=\"message-log\"></div>\n                </div>\n            </div>\n            <div class=\"chat-lower\">\n                <input id=\"user-name-input\" type=\"text\" placeholder=\"Set your user name\"/>\n                <input id=\"message-input\" type=\"text\" placeholder=\"Say something\" readonly/>\n            </div>\n        </div>\n        \n        <script>\n            var userNameInput = $('#user-name-input');\n            var messageInput = $('#message-input');\n            var messagesLog = $('#message-log');\n            var users = $('#users');\n            var wsUri = 'ws://localhost:1880/ws/broadcast';\n            var userName;\n            var ws;\n            \n            function processResponse(data) {\n                var parsed = JSON.parse(data);\n                \n                switch(parsed.type) {\n                    case 'message':\n                        console.log(parsed.user, ':', parsed.message, '; Score:', parsed.score);\n                        messagesLog.append('<p>' + new Date().toISOString() + ' - ' + parsed.user + ' : ' + parsed.message + '</p>');\n                        messagesLog.parent().animate({\n                            scrollTop: messagesLog.height()\n                        }, 0);\n                        break;\n                    case 'typing':\n                        console.log('User', parsed.user, 'is typing');\n                        break;\n                    case 'connect':\n                        console.log('User', parsed.user, 'connected');\n                        users.append('<p>' + parsed.user.name + '</p>');\n                        break;\n                }\n            }\n            \n            function onUserNameInput(event) {\n                if (event.keyCode === 13) {\n                    userName = userNameInput.val();\n                    userNameInput.off();\n                    messageInput.on('keyup', onMessageInput);\n                    userNameInput.attr('readonly', true);\n                    messageInput.attr('readonly', false);\n                    \n                    ws = new WebSocket(wsUri);\n                \n                    ws.onmessage = function(message) {\n                        processResponse(message.data);\n                    };\n                    \n                    ws.onopen = function() {\n                        console.log('Connected');\n                        ws.send(JSON.stringify({\n                            type: 'connect',\n                            user: userName\n                        }));\n                    };\n                    \n                    ws.onclose = function() {\n                        console.log('Closed');\n                    };\n                    \n                    ws.onerror = function(data) {\n                        console.error(data);\n                    };\n                }\n            }\n            \n            function onMessageInput(event) {\n                if (event.keyCode === 13) {\n                    ws.send(JSON.stringify({\n                        user: userName,\n                        type: 'message',\n                        message: messageInput.val()\n                    }));\n                    \n                    messageInput.val('');\n                } else {\n                    ws.send(JSON.stringify({\n                        user: userName,\n                        type: 'typing'\n                    }));\n                }\n            }\n            \n            userNameInput.on('keyup', onUserNameInput);\n        </script>\n    </body>\n</html>",
+    "x": 390,
+    "y": 60,
+    "wires": [
+      [
+        "49767010.bf5a9"
+      ]
+    ]
+  },
+  {
+    "id": "49767010.bf5a9",
+    "type": "http response",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 590,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "c2e7830c.aaeac",
+    "type": "http in",
+    "z": "5acb2f70.5e63",
+    "name": "HTTP GET - Chat",
+    "url": "/chat",
+    "method": "get",
+    "swaggerDoc": "",
+    "x": 150,
+    "y": 60,
+    "wires": [
+      [
+        "3f57dd70.162882"
+      ]
+    ]
+  },
+  {
+    "id": "72504a9f.1dbe74",
+    "type": "websocket in",
+    "z": "5acb2f70.5e63",
+    "name": "WS /broadcast - Receive user interactions",
+    "server": "3b57759.b72288a",
+    "client": "",
+    "x": 220,
+    "y": 220,
+    "wires": [
+      [
+        "adcbde1c.c63b9"
+      ]
+    ]
+  },
+  {
+    "id": "456c096b.82e5e8",
+    "type": "websocket out",
+    "z": "5acb2f70.5e63",
+    "name": "WS /broadcast - Broadcast response",
+    "server": "3b57759.b72288a",
+    "client": "",
+    "x": 1410,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "110a60ab.be6cef",
+    "type": "switch",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "property": "payload.type",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "message",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "typing",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "connect",
+        "vt": "str"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "false",
+    "outputs": 4,
+    "x": 250,
+    "y": 360,
+    "wires": [
+      [
+        "ac023eeb.1e4b7"
+      ],
+      [
+        "46762be6.469b24"
+      ],
+      [
+        "7dca143.b31abec"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "46762be6.469b24",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Bypass response",
+    "func": "return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 450,
+    "y": 340,
+    "wires": [
+      [
+        "5caa6488.b0c15c"
+      ]
+    ]
+  },
+  {
+    "id": "5caa6488.b0c15c",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Kill session",
+    "func": "msg._session = '';\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1010,
+    "y": 360,
+    "wires": [
+      [
+        "cd06b8b2.9820d8"
+      ]
+    ]
+  },
+  {
+    "id": "13ab415c.e7bbff",
+    "type": "sentiment",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 600,
+    "y": 300,
+    "wires": [
+      [
+        "a71dd8d0.7ffc28"
+      ]
+    ]
+  },
+  {
+    "id": "adcbde1c.c63b9",
+    "type": "json",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 110,
+    "y": 360,
+    "wires": [
+      [
+        "110a60ab.be6cef"
+      ]
+    ]
+  },
+  {
+    "id": "cd06b8b2.9820d8",
+    "type": "json",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 1190,
+    "y": 360,
+    "wires": [
+      [
+        "456c096b.82e5e8",
+        "5e381be3.a0b864"
+      ]
+    ]
+  },
+  {
+    "id": "ac023eeb.1e4b7",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Parse payload",
+    "func": "msg.user = msg.payload.user;\nmsg.payload = msg.payload.message;\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 440,
+    "y": 300,
+    "wires": [
+      [
+        "13ab415c.e7bbff"
+      ]
+    ]
+  },
+  {
+    "id": "a71dd8d0.7ffc28",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Process response",
+    "func": "var message = msg.payload;\nvar user = msg.user;\nvar score = msg.sentiment.score;\n\nmsg.payload = {\n    type: 'message',\n    user: user,\n    message: message,\n    score: score\n};\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 780,
+    "y": 300,
+    "wires": [
+      [
+        "5caa6488.b0c15c"
+      ]
+    ]
+  },
+  {
+    "id": "f386a504.77f4b8",
+    "type": "http in",
+    "z": "5acb2f70.5e63",
+    "name": "HTTP GET - Users",
+    "url": "/api/users",
+    "method": "get",
+    "swaggerDoc": "",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "2addd964.b12616"
+      ]
+    ]
+  },
+  {
+    "id": "9fd4142f.e84cf8",
+    "type": "http response",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 590,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "2addd964.b12616",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Get users",
+    "func": "msg.payload = [];\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 380,
+    "y": 100,
+    "wires": [
+      [
+        "9fd4142f.e84cf8"
+      ]
+    ]
+  },
+  {
+    "id": "5e381be3.a0b864",
+    "type": "debug",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "active": false,
+    "console": "false",
+    "complete": "false",
+    "x": 1330,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "7dca143.b31abec",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Set user id",
+    "func": "msg.payload.user = {\n    name: msg.payload.user,\n    id: 1\n};\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 430,
+    "y": 380,
+    "wires": [
+      [
+        "5caa6488.b0c15c"
+      ]
+    ]
+  },
+  {
+    "id": "9a312ffa.5f096",
+    "type": "http in",
+    "z": "5acb2f70.5e63",
+    "name": "HTTP GET - Messages",
+    "url": "/api/messages",
+    "method": "get",
+    "swaggerDoc": "",
+    "x": 160,
+    "y": 140,
+    "wires": [
+      [
+        "99d7796a.9af538"
+      ]
+    ]
+  },
+  {
+    "id": "3881736d.9e9a7c",
+    "type": "http response",
+    "z": "5acb2f70.5e63",
+    "name": "",
+    "x": 590,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "99d7796a.9af538",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Get messages",
+    "func": "msg.payload = [];\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 400,
+    "y": 140,
+    "wires": [
+      [
+        "3881736d.9e9a7c"
+      ]
+    ]
+  }
+]
