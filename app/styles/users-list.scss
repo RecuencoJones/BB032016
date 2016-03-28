@@ -5,4 +5,12 @@
   border: $border;
   padding: $padding;
   @include users-list-background-gradient();
+
+  .separator {
+    border-color: $dark-blue;
+  }
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 }

@@ -11,6 +11,7 @@ function processAction(rawData) {
   switch(data.type) {
     case Actions.Chat.Connect:
       UsersListActions.add(data.user);
+      ChatActions.add('System', data.user.name + ' joined the room.');
       break;
     case Actions.Chat.Typing:
       // TODO

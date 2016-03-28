@@ -11,10 +11,14 @@
     .message {
       background: white;
       border: 1px solid black;
-      border-radius: $padding;
       padding: $padding / 2;
       margin: $padding / 4;
       word-wrap: break-word;
+      display: table;
     }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
   }
 }

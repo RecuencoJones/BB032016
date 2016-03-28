@@ -1,5 +1,9 @@
 # NodeRED WS Chat for Betabeers 03 - 2016
 
+## Requirements
+
+- Node installed
+
 ## Import NodeRED Server
 
 Install **node-red** with `npm i -g node-red` and run it with `node-red`

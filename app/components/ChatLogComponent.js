@@ -9,7 +9,9 @@ function setMessagesLog(messages) {
     view = messages.map(function(message, index) {
       return (
         <div className="message" key={index}>
-          [{message.date.getHours()}:{message.date.getMinutes()}] {message.user}: {message.message}
+          [{('0' + message.date.getHours()).slice(-2)}:
+          {('0' + message.date.getMinutes()).slice(-2)}]&nbsp;
+          {message.user}: {message.message}
         </div>
       );
     });

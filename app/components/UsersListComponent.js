@@ -20,7 +20,7 @@ const UsersListComponent = React.createClass({
     return (
       <div className="users-list">
         Connected users
-        <hr />
+        <hr className="separator" />
         {
           this.state.users.map(function(user) {
             return <p key={user.id}>{user.name}</p>

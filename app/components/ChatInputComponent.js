@@ -2,6 +2,28 @@ import React from 'react';
 import ChatService from '../services/ChatService';
 import Actions from '../constants/Actions';
 
+function getInput() {
+  let view;
+
+  if (!this.state.userName) {
+    view = (
+      <input className="user-name-input"
+        type="text"
+        placeholder="Set your name"
+        onKeyUp={this.onUserNameInput}/>
+      );
+  } else {
+    view = (
+      <input className="message-input"
+        type="text"
+        placeholder="Say something"
+        onKeyUp={this.onMessageInput}/>
+    );
+  }
+
+  return view;
+}
+
 const ChatInputComponent = React.createClass({
   getInitialState: function() {
     return {
@@ -12,27 +34,24 @@ const ChatInputComponent = React.createClass({
   render: function() {
     return (
       <div className="chat-input">
-        <input className="user-name-input"
-            type="text"
-            placeholder="Set your user name"
-            onKeyUp={this.onUserNameInput}
-            readOnly={this.state.userName}/>
-        <input className="message-input"
-            type="text"
-            placeholder="Say something"
-            onKeyUp={this.onMessageInput}
-            readOnly={!this.state.userName}/>
+        {
+          getInput.call(this)
+        }
       </div>
     );
   },
 
   onUserNameInput: function(event) {
     if (event.keyCode === 13) {
+      let userName = event.target.value;
+
       this.setState({
-        userName: event.target.value
+        userName: userName
       });
 
-      ChatService.connect(event.target.value);
+      ChatService.connect(userName);
+
+      event.target.value = '';
     }
   },
 

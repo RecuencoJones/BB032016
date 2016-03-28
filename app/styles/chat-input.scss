@@ -9,24 +9,10 @@
     height: $user-input-height;
     padding: $padding;
     font-size: 1em;
+    width: 100%;
   }
 
   .user-name-input {
-    width: $users-list-width;
     font-weight: bold;
-
-    &[readonly] {
-      color: white;
-      background: $dark-blue;
-    }
-  }
-
-  .message-input {
-    width: calc(100% - #{$users-list-width});
-
-    &[readonly] {
-      color: $dark-blue;
-      background: $light-blue;
-    }
   }
 }
