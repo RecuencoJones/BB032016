@@ -12,8 +12,16 @@ const ChatInputComponent = React.createClass({
   render: function() {
     return (
       <div className="chat-input">
-        <input type="text" placeholder="Set your user name" onKeyUp={this.onUserNameInput} readOnly={this.state.userName}/>
-        <input type="text" placeholder="Say something" onKeyUp={this.onMessageInput} readOnly={!this.state.userName}/>
+        <input className="user-name-input"
+            type="text"
+            placeholder="Set your user name"
+            onKeyUp={this.onUserNameInput}
+            readOnly={this.state.userName}/>
+        <input className="message-input"
+            type="text"
+            placeholder="Say something"
+            onKeyUp={this.onMessageInput}
+            readOnly={!this.state.userName}/>
       </div>
     );
   },

@@ -1,8 +1,7 @@
 import UsersListActions from '../actions/UsersListActions';
 import ChatActions from '../actions/ChatActions';
 import Actions from '../constants/Actions';
-
-const WS_URI = 'ws://localhost:1880/ws/broadcast';
+import Endpoints from '../constants/Endpoints';
 
 let ws;
 
@@ -14,7 +13,7 @@ function processAction(rawData) {
       UsersListActions.add(data.user);
       break;
     case Actions.Chat.Typing:
-
+      // TODO
       break;
     case Actions.Chat.Message:
       ChatActions.add(data.user, data.message);
@@ -32,7 +31,7 @@ const ChatService = {
    * @param {string} userName - user name to display.
    */
   connect: function(userName) {
-    ws = new WebSocket(WS_URI);
+    ws = new WebSocket(Endpoints.WebSocket);
 
     ws.onmessage = (message) => {
       console.log('Received data', message.data);
@@ -56,7 +55,7 @@ const ChatService = {
     };
   },
 
-  send: function (data) {
+  send: function(data) {
     ws.send(JSON.stringify(data));
   }
 };

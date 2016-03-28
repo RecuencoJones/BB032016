@@ -5,16 +5,20 @@ import ChatLogComponent from './ChatLogComponent';
 
 const AppComponent = React.createClass({
 
-  render: () => {
+  render: function() {
     return (
-      <div>
+      <div className="main-layout">
 
-        <div>
+        <div className="top-layout">
+          <div className="header">Chat React Client</div>
+        </div>
+
+        <div className="mid-layout">
           <UsersListComponent />
           <ChatLogComponent />
         </div>
 
-        <div>
+        <div className="bottom-layout">
           <ChatInputComponent />
         </div>
 

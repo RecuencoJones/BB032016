@@ -1,0 +1,11 @@
+.header {
+  box-sizing: border-box;
+  border: $border;
+  height: $header-height;
+  padding: $padding;
+  background: $dark-blue;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}

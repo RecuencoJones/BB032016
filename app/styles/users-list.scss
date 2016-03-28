@@ -1,0 +1,8 @@
+.users-list {
+  box-sizing: border-box;
+  width: $users-list-width;
+  height: 100%;
+  border: $border;
+  padding: $padding;
+  @include users-list-background-gradient();
+}

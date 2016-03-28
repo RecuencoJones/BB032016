@@ -1,0 +1,34 @@
+html, body, #chat-app {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font: 16px Arial;
+}
+
+@media screen and (min-width: 400px) {
+  .main-layout {
+    height: 100%;
+    width: 100%;
+
+    .top-layout {
+      height: $header-height;
+    }
+
+    .mid-layout {
+      height: calc(100% - #{$user-input-height} - #{$header-height});
+      width: 100%;
+      display: inline-flex;
+    }
+
+    .bottom-layout {
+      position: fixed;
+      bottom: 0;
+      height: $user-input-height;
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+
+}

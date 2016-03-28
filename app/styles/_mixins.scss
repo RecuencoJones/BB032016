@@ -1,0 +1,12 @@
+@mixin chat-background-gradient() {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+7,207cca+35,207cca+35,207cca+41,207cca+48,207cca+54,2989d8+64,2989d8+64,2989d8+71,2989d8+71,207cca+78,1e5799+94,1e5799+94 */
+  background: #7db9e8; /* Old browsers */
+  background: -moz-linear-gradient(45deg,  #7db9e8 7%, #207cca 35%, #207cca 35%, #207cca 41%, #207cca 48%, #207cca 54%, #2989d8 64%, #2989d8 64%, #2989d8 71%, #2989d8 71%, #207cca 78%, #1e5799 94%, #1e5799 94%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg,  #7db9e8 7%,#207cca 35%,#207cca 35%,#207cca 41%,#207cca 48%,#207cca 54%,#2989d8 64%,#2989d8 64%,#2989d8 71%,#2989d8 71%,#207cca 78%,#1e5799 94%,#1e5799 94%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg,  #7db9e8 7%,#207cca 35%,#207cca 35%,#207cca 41%,#207cca 48%,#207cca 54%,#2989d8 64%,#2989d8 64%,#2989d8 71%,#2989d8 71%,#207cca 78%,#1e5799 94%,#1e5799 94%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+@mixin users-list-background-gradient() {
+  background: #7db9e8;
+}

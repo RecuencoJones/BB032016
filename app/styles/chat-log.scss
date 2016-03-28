@@ -1,0 +1,20 @@
+.chat-log {
+  box-sizing: border-box;
+  width: calc(100% - #{$users-list-width});
+  height: 100%;
+  overflow: auto;
+  border: $border;
+  padding: $padding;
+  @include chat-background-gradient();
+
+  .messages-list {
+    .message {
+      background: white;
+      border: 1px solid black;
+      border-radius: $padding;
+      padding: $padding / 2;
+      margin: $padding / 4;
+      word-wrap: break-word;
+    }
+  }
+}

@@ -1,5 +1,24 @@
 import React from 'react';
 import ChatStore from '../storages/ChatStore';
+import $ from 'jquery';
+
+function setMessagesLog(messages) {
+  let view;
+
+  if (messages.length) {
+    view = messages.map(function(message, index) {
+      return (
+        <div className="message" key={index}>
+          [{message.date.getHours()}:{message.date.getMinutes()}] {message.user}: {message.message}
+        </div>
+      );
+    });
+  } else {
+    view = <div>Set a user name and start chatting!</div>;
+  }
+
+  return view;
+}
 
 const ChatLogComponent = React.createClass({
   getInitialState: function() {
@@ -19,11 +38,11 @@ const ChatLogComponent = React.createClass({
   render: function() {
     return (
       <div className="chat-log">
-        {
-          this.state.messages.map(function(message, index) {
-            return <div key={index}>{message}</div>;
-          })
-        }
+        <div className="messages-list">
+          {
+            setMessagesLog(this.state.messages)
+          }
+        </div>
       </div>
     );
   },
@@ -31,6 +50,12 @@ const ChatLogComponent = React.createClass({
   onUpdate: function() {
     this.setState({
       messages: ChatStore.getAll()
+    });
+
+    let list = $('.messages-list');
+
+    list.parent().animate({
+      scrollTop: list.height()
     });
   }
 });

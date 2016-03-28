@@ -38,7 +38,11 @@ const ChatStore = _.assign({}, EventEmitter.prototype, {
 
     switch(action.actionType) {
       case Actions.Chat.Message:
-        add(action.user + ': ' + action.message);
+        add({
+          date: new Date(),
+          user: action.user,
+          message: action.message
+        });
         ChatStore.emitChange();
         break;
     }
