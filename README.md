@@ -24,4 +24,16 @@ jQuery application that connects to the socket.
 
 ## Build React Client
 
-Install this package and open [index.html](index.html) file.
+```
+npm install
+npm run client
+```
+
+This will create a server on your [localhost:9000](http://localhost:9000) with 
+the React Client.
+
+## Other tasks
+
+`npm run build` - Runs webpack to build the client.
+`npm run prod` - Runs webpack to build the minified client.
+`npm run watch` - Development task for auto build on changes.
