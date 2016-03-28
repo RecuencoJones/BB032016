@@ -25,8 +25,10 @@
     "url-loader": "0.5.7",
     "webpack": "1.12.9"
   },
-  "postinstall": "webpack",
-  "build": "webpack",
-  "watch": "webpack -w",
-  "prod": "webpack -p"
+  "scripts": {
+    "postinstall": "webpack",
+    "build": "webpack",
+    "watch": "webpack -w",
+    "prod": "webpack -p"
+  }
 }
