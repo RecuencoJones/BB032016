@@ -34,6 +34,6 @@ the React Client.
 
 ## Other tasks
 
-`npm run build` - Runs webpack to build the client.
-`npm run prod` - Runs webpack to build the minified client.
-`npm run watch` - Development task for auto build on changes.
+- `npm run build`: Runs webpack to build the client.
+- `npm run prod`: Runs webpack to build the minified client.
+- `npm run watch`: Development task for auto build on changes.
