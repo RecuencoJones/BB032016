@@ -2,13 +2,25 @@ import React from 'react';
 import ChatStore from '../storages/ChatStore';
 import $ from 'jquery';
 
+function setMessageColor(score) {
+  let classNames = ['message'];
+
+  if (score >= 3) {
+    classNames.push('positive');
+  } else if (score <= -3) {
+    classNames.push('negative');
+  }
+
+  return classNames.join(' ');
+}
+
 function setMessagesLog(messages) {
   let view;
 
   if (messages.length) {
     view = messages.map(function(message, index) {
       return (
-        <div className="message" key={index}>
+        <div className={setMessageColor(message.score)} key={index}>
           [{('0' + message.date.getHours()).slice(-2)}:
           {('0' + message.date.getMinutes()).slice(-2)}]&nbsp;
           {message.user}: {message.message}

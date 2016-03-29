@@ -11,13 +11,13 @@ function processAction(rawData) {
   switch(data.type) {
     case Actions.Chat.Connect:
       UsersListActions.add(data.user);
-      ChatActions.add('System', data.user.name + ' joined the room.');
+      ChatActions.add('System', data.user.name + ' joined the room.', 0);
       break;
     case Actions.Chat.Typing:
       // TODO
       break;
     case Actions.Chat.Message:
-      ChatActions.add(data.user, data.message);
+      ChatActions.add(data.user, data.message, data.score);
       break;
     default:
       console.error('Unexpected data type [', data.type, ']');

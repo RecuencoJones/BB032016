@@ -15,6 +15,14 @@
       margin: $padding / 4;
       word-wrap: break-word;
       display: table;
+
+      &.positive {
+        background: $light-green;
+      }
+
+      &.negative {
+        background: $light-red;
+      }
     }
   }
 

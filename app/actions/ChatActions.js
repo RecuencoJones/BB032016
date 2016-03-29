@@ -8,12 +8,14 @@ const ChatActions = {
    *
    * @param {string} user - user that sent the message.
    * @param {string} message - message sent.
+   * @param {number} score - score of the message.
    */
-  add: function(user, message) {
+  add: function(user, message, score) {
     AppDispatcher.handleServerAction({
       actionType: Actions.Chat.Message,
       user: user,
-      message: message
+      message: message,
+      score: score
     });
   }
 };

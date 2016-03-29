@@ -41,7 +41,8 @@ const ChatStore = _.assign({}, EventEmitter.prototype, {
         add({
           date: new Date(),
           user: action.user,
-          message: action.message
+          message: action.message,
+          score: action.score
         });
         ChatStore.emitChange();
         break;
