@@ -5,6 +5,7 @@
   overflow: auto;
   border: $border;
   padding: $padding;
+  position: relative;
   @include chat-background-gradient();
 
   .messages-list {
@@ -24,6 +25,14 @@
         background: $light-red;
       }
     }
+  }
+
+  .typing {
+    position: absolute;
+    display: none;
+    width: 300px;
+    bottom: 0;
+    font-size: 1em;
   }
 
   @media screen and (max-width: 400px) {

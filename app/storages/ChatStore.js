@@ -25,12 +25,24 @@ const ChatStore = _.assign({}, EventEmitter.prototype, {
     this.emit(Events.Chat.Update);
   },
 
+  emitTyping: function(user) {
+    this.emit(Events.Chat.Typing, user);
+  },
+
   addChangeListener: function(callback) {
     this.on(Events.Chat.Update, callback);
   },
 
+  addTypingListener: function(callback) {
+    this.on(Events.Chat.Typing, callback);
+  },
+
   removeChangeListener: function(callback) {
     this.removeListener(Events.Chat.Update, callback);
+  },
+
+  removeTypingListener: function(callback) {
+    this.removeListener(Events.Chat.Typing, callback);
   },
 
   dispatcherIndex: AppDispatcher.register(function(payload) {
@@ -45,6 +57,9 @@ const ChatStore = _.assign({}, EventEmitter.prototype, {
           score: action.score
         });
         ChatStore.emitChange();
+        break;
+      case Actions.Chat.Typing:
+        ChatStore.emitTyping(action.user);
         break;
     }
 

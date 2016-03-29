@@ -19,7 +19,9 @@ function processAction(rawData) {
       });
       break;
     case Actions.Chat.Typing:
-      // TODO
+      ChatActions.flash({
+        user: data.user
+      });
       break;
     case Actions.Chat.Message:
       ChatActions.add({

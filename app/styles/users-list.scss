@@ -4,6 +4,7 @@
   height: 100%;
   border: $border;
   padding: $padding;
+  overflow: auto;
   @include users-list-background-gradient();
 
   .separator {

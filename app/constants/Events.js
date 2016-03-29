@@ -3,7 +3,8 @@ const Events = {
     Update: 'updated'
   },
   Chat: {
-    Update: 'updated'
+    Update: 'updated',
+    Typing: 'typing'
   }
 };
 

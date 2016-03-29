@@ -18,6 +18,19 @@ const ChatActions = {
       message: data.message,
       score: data.score
     });
+  },
+
+  /**
+   * Flash user typing.
+   *
+   * @param {Object} data - data to set.
+   * @param {string} data.user - user that is typing.
+   */
+  flash: function(data) {
+    AppDispatcher.handleServerAction({
+      actionType: Actions.Chat.Typing,
+      user: data.user
+    });
   }
 };
 

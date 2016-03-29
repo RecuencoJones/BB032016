@@ -6,7 +6,7 @@
     "angular-http-exposed": "1.0.1",
     "events": "1.1.0",
     "flux": "2.1.1",
-    "font-awesome": "^4.5.0",
+    "font-awesome": "4.5.0",
     "history": "1.13.1",
     "jquery": "2.2.2",
     "lodash": "4.6.1",

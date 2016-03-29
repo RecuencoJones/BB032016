@@ -43,10 +43,12 @@ const ChatLogComponent = React.createClass({
 
   componentDidMount: function() {
     ChatStore.addChangeListener(this.onUpdate);
+    ChatStore.addTypingListener(this.flashTyping);
   },
 
   componentWillUnmount: function() {
     ChatStore.removeChangeListener(this.onUpdate);
+    ChatStore.removeTypingListener(this.flashTyping);
   },
 
   render: function() {
@@ -57,6 +59,7 @@ const ChatLogComponent = React.createClass({
             setMessagesLog(this.state.messages)
           }
         </div>
+        <div className="typing"></div>
       </div>
     );
   },
@@ -71,6 +74,15 @@ const ChatLogComponent = React.createClass({
     list.parent().animate({
       scrollTop: list.height()
     });
+  },
+
+  flashTyping: function(user) {
+    let typing = $('.typing');
+
+    typing.html(`<i class="fa fa-pencil"></i>&nbsp;${user}</div>`);
+
+    typing.show();
+    typing.hide(1000);
   }
 });
 
