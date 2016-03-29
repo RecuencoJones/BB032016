@@ -80,7 +80,7 @@ const ChatInputComponent = React.createClass({
 
   onUserNameInput: function(event) {
     if (event.keyCode === 13) {
-      sendUserName();
+      sendUserName.call(this);
     }
   },
 

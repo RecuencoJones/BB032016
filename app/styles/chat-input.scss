@@ -20,6 +20,7 @@
   .chat-button {
     width: $user-input-height;
     border: $border;
+    background: $light-gray;
 
      > *:hover {
       color: $light-blue;
