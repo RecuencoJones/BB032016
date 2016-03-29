@@ -1,5 +1,14 @@
 [
   {
+    "id": "91633a2b.79b008",
+    "type": "mongodb",
+    "z": "5acb2f70.5e63",
+    "hostname": "127.0.0.1",
+    "port": "27017",
+    "db": "ws-chat",
+    "name": ""
+  },
+  {
     "id": "3b57759.b72288a",
     "type": "websocket-listener",
     "z": "5acb2f70.5e63",
@@ -16,7 +25,7 @@
     "format": "handlebars",
     "syntax": "mustache",
     "template": "<!DOCTYPE html>\n<html>\n    <head>\n        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js\"></script>\n        \n        <style>\n            html, body {\n                margin: 0;\n                height: 100%;\n                width: 100%;\n            }\n            \n            .chat-layout {\n                height: 100%;\n                width: 100%;\n            }\n        \n            .chat-upper {\n                height: calc(100% - 50px);\n                width: 100%;\n                display: inline-flex;\n            }\n            \n            .chat-lower {\n                box-sizing: border-box;\n                width: 100%;\n                border: 1px solid black;\n                position: fixed;\n                bottom: 0;\n                height: 50px;\n            }\n            \n            .users-list {\n                box-sizing: border-box;\n                width: 200px;\n                border: 1px solid black;\n                padding: 10px;\n                overflow: auto;\n            }\n            \n            .messages-list {\n                box-sizing: border-box;\n                height: 100%;\n                width: calc(100% - 200px);\n                border: 1px solid black;\n                overflow: auto;\n            }\n        </style>\n    </head>\n    <body>\n        <div class=\"chat-layout\">\n            <div class=\"chat-upper\">\n                <div class=\"users-list\">\n                    Connected users\n                    <hr/>\n                    <div id=\"users\"></div>\n                </div>\n                <div class=\"messages-list\">\n                    <div id=\"message-log\"></div>\n                </div>\n            </div>\n            <div class=\"chat-lower\">\n                <input id=\"user-name-input\" type=\"text\" placeholder=\"Set your user name\"/>\n                <input id=\"message-input\" type=\"text\" placeholder=\"Say something\" readonly/>\n            </div>\n        </div>\n        \n        <script>\n            var userNameInput = $('#user-name-input');\n            var messageInput = $('#message-input');\n            var messagesLog = $('#message-log');\n            var users = $('#users');\n            var wsUri = 'ws://localhost:1880/ws/broadcast';\n            var userName;\n            var ws;\n            \n            function processResponse(data) {\n                var parsed = JSON.parse(data);\n                \n                switch(parsed.type) {\n                    case 'message':\n                        console.log(parsed.user, ':', parsed.message, '; Score:', parsed.score);\n                        messagesLog.append('<p>' + new Date().toISOString() + ' - ' + parsed.user + ' : ' + parsed.message + '</p>');\n                        messagesLog.parent().animate({\n                            scrollTop: messagesLog.height()\n                        }, 0);\n                        break;\n                    case 'typing':\n                        console.log('User', parsed.user, 'is typing');\n                        break;\n                    case 'connect':\n                        console.log('User', parsed.user, 'connected');\n                        users.append('<p>' + parsed.user.name + '</p>');\n                        break;\n                }\n            }\n            \n            function onUserNameInput(event) {\n                if (event.keyCode === 13) {\n                    userName = userNameInput.val();\n                    userNameInput.off();\n                    messageInput.on('keyup', onMessageInput);\n                    userNameInput.attr('readonly', true);\n                    messageInput.attr('readonly', false);\n                    \n                    ws = new WebSocket(wsUri);\n                \n                    ws.onmessage = function(message) {\n                        processResponse(message.data);\n                    };\n                    \n                    ws.onopen = function() {\n                        console.log('Connected');\n                        ws.send(JSON.stringify({\n                            type: 'connect',\n                            user: userName\n                        }));\n                    };\n                    \n                    ws.onclose = function() {\n                        console.log('Closed');\n                    };\n                    \n                    ws.onerror = function(data) {\n                        console.error(data);\n                    };\n                }\n            }\n            \n            function onMessageInput(event) {\n                if (event.keyCode === 13) {\n                    ws.send(JSON.stringify({\n                        user: userName,\n                        type: 'message',\n                        message: messageInput.val()\n                    }));\n                    \n                    messageInput.val('');\n                } else {\n                    ws.send(JSON.stringify({\n                        user: userName,\n                        type: 'typing'\n                    }));\n                }\n            }\n            \n            userNameInput.on('keyup', onUserNameInput);\n        </script>\n    </body>\n</html>",
-    "x": 390,
+    "x": 350,
     "y": 60,
     "wires": [
       [
@@ -29,7 +38,7 @@
     "type": "http response",
     "z": "5acb2f70.5e63",
     "name": "",
-    "x": 590,
+    "x": 690,
     "y": 60,
     "wires": []
   },
@@ -71,8 +80,8 @@
     "name": "WS /broadcast - Broadcast response",
     "server": "3b57759.b72288a",
     "client": "",
-    "x": 1410,
-    "y": 260,
+    "x": 1430,
+    "y": 300,
     "wires": []
   },
   {
@@ -219,7 +228,8 @@
     "y": 300,
     "wires": [
       [
-        "5caa6488.b0c15c"
+        "5caa6488.b0c15c",
+        "33630734.d55c38"
       ]
     ]
   },
@@ -235,7 +245,7 @@
     "y": 100,
     "wires": [
       [
-        "2addd964.b12616"
+        "4a2655a1.70a5cc"
       ]
     ]
   },
@@ -244,25 +254,9 @@
     "type": "http response",
     "z": "5acb2f70.5e63",
     "name": "",
-    "x": 590,
+    "x": 690,
     "y": 100,
     "wires": []
-  },
-  {
-    "id": "2addd964.b12616",
-    "type": "function",
-    "z": "5acb2f70.5e63",
-    "name": "Get users",
-    "func": "msg.payload = [];\n\nreturn msg;",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 380,
-    "y": 100,
-    "wires": [
-      [
-        "9fd4142f.e84cf8"
-      ]
-    ]
   },
   {
     "id": "5e381be3.a0b864",
@@ -272,8 +266,8 @@
     "active": false,
     "console": "false",
     "complete": "false",
-    "x": 1330,
-    "y": 460,
+    "x": 1350,
+    "y": 400,
     "wires": []
   },
   {
@@ -281,14 +275,15 @@
     "type": "function",
     "z": "5acb2f70.5e63",
     "name": "Set user id",
-    "func": "msg.payload.user = {\n    name: msg.payload.user,\n    id: 1\n};\n\nreturn msg;",
+    "func": "if (global.userId) {\n    global.userId++;\n} else {\n    global.userId = 1;\n}\n\nmsg.payload.user = {\n    name: msg.payload.user,\n    id: global.userId\n};\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
     "x": 430,
     "y": 380,
     "wires": [
       [
-        "5caa6488.b0c15c"
+        "5caa6488.b0c15c",
+        "b16bec6.577611"
       ]
     ]
   },
@@ -304,7 +299,7 @@
     "y": 140,
     "wires": [
       [
-        "99d7796a.9af538"
+        "22442810.3afda8"
       ]
     ]
   },
@@ -313,7 +308,7 @@
     "type": "http response",
     "z": "5acb2f70.5e63",
     "name": "",
-    "x": 590,
+    "x": 690,
     "y": 140,
     "wires": []
   },
@@ -321,15 +316,109 @@
     "id": "99d7796a.9af538",
     "type": "function",
     "z": "5acb2f70.5e63",
-    "name": "Get messages",
-    "func": "msg.payload = [];\n\nreturn msg;",
+    "name": "Take 5 last",
+    "func": "msg.payload = msg.payload.slice(-5);\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 400,
+    "x": 530,
     "y": 140,
     "wires": [
       [
         "3881736d.9e9a7c"
+      ]
+    ]
+  },
+  {
+    "id": "cf1db6f8.bf5198",
+    "type": "mongodb out",
+    "z": "5acb2f70.5e63",
+    "mongodb": "91633a2b.79b008",
+    "name": "Save user",
+    "collection": "users",
+    "payonly": true,
+    "upsert": false,
+    "multi": false,
+    "operation": "insert",
+    "x": 770,
+    "y": 440,
+    "wires": []
+  },
+  {
+    "id": "4a2655a1.70a5cc",
+    "type": "mongodb in",
+    "z": "5acb2f70.5e63",
+    "mongodb": "91633a2b.79b008",
+    "name": "Get users",
+    "collection": "users",
+    "operation": "find",
+    "x": 340,
+    "y": 100,
+    "wires": [
+      [
+        "9fd4142f.e84cf8"
+      ]
+    ]
+  },
+  {
+    "id": "22442810.3afda8",
+    "type": "mongodb in",
+    "z": "5acb2f70.5e63",
+    "mongodb": "91633a2b.79b008",
+    "name": "Get messages",
+    "collection": "messages",
+    "operation": "find",
+    "x": 360,
+    "y": 140,
+    "wires": [
+      [
+        "99d7796a.9af538"
+      ]
+    ]
+  },
+  {
+    "id": "2466f7aa.efa858",
+    "type": "mongodb out",
+    "z": "5acb2f70.5e63",
+    "mongodb": "91633a2b.79b008",
+    "name": "Save message",
+    "collection": "messages",
+    "payonly": true,
+    "upsert": false,
+    "multi": false,
+    "operation": "store",
+    "x": 1200,
+    "y": 240,
+    "wires": []
+  },
+  {
+    "id": "b16bec6.577611",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Get user",
+    "func": "msg.payload = msg.payload.user;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 620,
+    "y": 440,
+    "wires": [
+      [
+        "cf1db6f8.bf5198"
+      ]
+    ]
+  },
+  {
+    "id": "33630734.d55c38",
+    "type": "function",
+    "z": "5acb2f70.5e63",
+    "name": "Get message",
+    "func": "msg.payload = {\n    score: msg.payload.score,\n    user: msg.payload.user,\n    message: msg.payload.message\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1020,
+    "y": 240,
+    "wires": [
+      [
+        "2466f7aa.efa858"
       ]
     ]
   }
