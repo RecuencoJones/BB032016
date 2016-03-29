@@ -1,4 +1,5 @@
 .chat-input {
+  display: inline-flex;
   box-sizing: border-box;
   width: 100%;
   height: $user-input-height;
@@ -14,5 +15,14 @@
 
   .user-name-input {
     font-weight: bold;
+  }
+
+  .chat-button {
+    width: $user-input-height;
+    border: $border;
+
+     > *:hover {
+      color: $light-blue;
+    }
   }
 }

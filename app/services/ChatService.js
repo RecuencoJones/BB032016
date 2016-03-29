@@ -59,8 +59,9 @@ const ChatService = {
     };
 
     ws.onclose = () => {
-      console.log('Closed socket');
+      ws.close();
       ws = null;
+      console.log('Closed socket');
     };
 
     ws.onerror = (error) => {

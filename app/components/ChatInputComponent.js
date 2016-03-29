@@ -1,6 +1,40 @@
 import React from 'react';
+import $ from 'jquery';
 import ChatService from '../services/ChatService';
 import Actions from '../constants/Actions';
+
+function sendUserName() {
+  let input = $('.user-name-input');
+
+  let userName = input.val();
+
+  this.setState({
+    userName: userName
+  });
+
+  ChatService.connect(userName);
+
+  input.val('');
+}
+
+function sendMessage() {
+  let input = $('.message-input');
+
+  ChatService.send({
+    user: this.state.userName,
+    type: Actions.Chat.Message,
+    message: input.val()
+  });
+
+  input.val('');
+}
+
+function sendTyping() {
+  ChatService.send({
+    user: this.state.userName,
+    type: Actions.Chat.Typing
+  });
+}
 
 function getInput() {
   let view;
@@ -37,38 +71,32 @@ const ChatInputComponent = React.createClass({
         {
           getInput.call(this)
         }
+        <div className="chat-button" onClick={this.onClick}>
+          <span className="fa fa-paper-plane-o"></span>
+        </div>
       </div>
     );
   },
 
   onUserNameInput: function(event) {
     if (event.keyCode === 13) {
-      let userName = event.target.value;
-
-      this.setState({
-        userName: userName
-      });
-
-      ChatService.connect(userName);
-
-      event.target.value = '';
+      sendUserName();
     }
   },
 
   onMessageInput: function(event) {
     if (event.keyCode === 13) {
-      ChatService.send({
-        user: this.state.userName,
-        type: Actions.Chat.Message,
-        message: event.target.value
-      });
-
-      event.target.value = '';
+      sendMessage.call(this);
     } else {
-      ChatService.send({
-        user: this.state.userName,
-        type: Actions.Chat.Typing
-      });
+      sendTyping.call(this);
+    }
+  },
+
+  onClick: function() {
+    if (this.state.userName) {
+      sendMessage.call(this);
+    } else {
+      sendUserName.call(this);
     }
   }
 });
