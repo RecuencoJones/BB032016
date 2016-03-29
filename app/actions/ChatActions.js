@@ -10,12 +10,14 @@ const ChatActions = {
    * @param {string} data.user - user that sent the message.
    * @param {string} data.message - message sent.
    * @param {number} data.score - score of the message.
+   * @param {string} data.time - time of the message.
    */
   add: function(data) {
     AppDispatcher.handleServerAction({
       actionType: Actions.Chat.Message,
       user: data.user,
       message: data.message,
+      time: data.time,
       score: data.score
     });
   },

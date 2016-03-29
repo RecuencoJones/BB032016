@@ -21,9 +21,7 @@ function setMessagesLog(messages) {
     view = messages.map(function(message, index) {
       return (
         <div className={setMessageColor(message.score)} key={index}>
-          [{('0' + message.date.getHours()).slice(-2)}:
-          {('0' + message.date.getMinutes()).slice(-2)}]&nbsp;
-          {message.user}: {message.message}
+          [{message.time}] {message.user}: {message.message}
         </div>
       );
     });

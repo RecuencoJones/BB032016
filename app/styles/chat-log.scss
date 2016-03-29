@@ -15,6 +15,7 @@
       padding: $padding / 2;
       margin: $padding / 4;
       word-wrap: break-word;
+      word-break: break-all;
       display: table;
 
       &.positive {
@@ -37,5 +38,9 @@
 
   @media screen and (max-width: 400px) {
     width: 100%;
+
+    .typing {
+      width: 80%;
+    }
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import ChatService from '../services/ChatService';
 import Actions from '../constants/Actions';
+import ApiService from '../services/ApiService';
 
 function sendUserName() {
   let input = $('.user-name-input');
@@ -11,6 +12,9 @@ function sendUserName() {
   this.setState({
     userName: userName
   });
+
+  ApiService.getMessages();
+  ApiService.getUsers();
 
   ChatService.connect(userName);
 

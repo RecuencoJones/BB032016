@@ -1,5 +1,4 @@
 import UsersListActions from '../actions/UsersListActions';
-import ApiService from './ApiService';
 import ChatActions from '../actions/ChatActions';
 import Actions from '../constants/Actions';
 import Endpoints from '../constants/Endpoints';
@@ -11,10 +10,16 @@ function processAction(rawData) {
 
   switch(data.type) {
     case Actions.Chat.Connect:
+      let date = new Date();
+
       UsersListActions.add(data.user);
       ChatActions.add({
         user: 'System',
         message: data.user.name + ' joined the room.',
+        time: [
+          ('0' + date.getHours()).slice(-2),
+          ('0' + date.getMinutes()).slice(-2)
+        ].join(':'),
         score: 0
       });
       break;
@@ -27,7 +32,8 @@ function processAction(rawData) {
       ChatActions.add({
         user: data.user,
         message: data.message,
-        score:  data.score
+        score:  data.score,
+        time: data.time
       });
       break;
     default:
@@ -55,9 +61,6 @@ const ChatService = {
         type: Actions.Chat.Connect,
         user: userName
       });
-
-      ApiService.getMessages();
-      ApiService.getUsers();
     };
 
     ws.onclose = () => {

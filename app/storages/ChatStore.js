@@ -51,7 +51,7 @@ const ChatStore = _.assign({}, EventEmitter.prototype, {
     switch(action.actionType) {
       case Actions.Chat.Message:
         add({
-          date: new Date(),
+          time: action.time,
           user: action.user,
           message: action.message,
           score: action.score
