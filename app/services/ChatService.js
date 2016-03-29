@@ -1,4 +1,5 @@
 import UsersListActions from '../actions/UsersListActions';
+import ApiService from './ApiService';
 import ChatActions from '../actions/ChatActions';
 import Actions from '../constants/Actions';
 import Endpoints from '../constants/Endpoints';
@@ -11,13 +12,21 @@ function processAction(rawData) {
   switch(data.type) {
     case Actions.Chat.Connect:
       UsersListActions.add(data.user);
-      ChatActions.add('System', data.user.name + ' joined the room.', 0);
+      ChatActions.add({
+        user: 'System',
+        message: data.user.name + ' joined the room.',
+        score: 0
+      });
       break;
     case Actions.Chat.Typing:
       // TODO
       break;
     case Actions.Chat.Message:
-      ChatActions.add(data.user, data.message, data.score);
+      ChatActions.add({
+        user: data.user,
+        message: data.message,
+        score:  data.score
+      });
       break;
     default:
       console.error('Unexpected data type [', data.type, ']');
@@ -44,6 +53,9 @@ const ChatService = {
         type: Actions.Chat.Connect,
         user: userName
       });
+
+      ApiService.getMessages();
+      ApiService.getUsers();
     };
 
     ws.onclose = () => {

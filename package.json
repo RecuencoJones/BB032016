@@ -2,6 +2,8 @@
   "name": "bb032016",
   "version": "1.0.0",
   "dependencies": {
+    "angular": "1.5.3",
+    "angular-http-exposed": "1.0.1",
     "events": "1.1.0",
     "flux": "2.1.1",
     "history": "1.13.1",
