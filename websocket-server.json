@@ -80,8 +80,8 @@
     "name": "WS /broadcast - Broadcast response",
     "server": "3b57759.b72288a",
     "client": "",
-    "x": 1410,
-    "y": 120,
+    "x": 1070,
+    "y": 300,
     "wires": []
   },
   {
@@ -136,7 +136,7 @@
     "func": "return msg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 610,
+    "x": 630,
     "y": 180,
     "wires": [
       [
@@ -191,12 +191,11 @@
     "type": "json",
     "z": "5acb2f70.5e63",
     "name": "",
-    "x": 1170,
-    "y": 180,
+    "x": 970,
+    "y": 240,
     "wires": [
       [
-        "456c096b.82e5e8",
-        "5e381be3.a0b864"
+        "456c096b.82e5e8"
       ]
     ]
   },
@@ -256,18 +255,6 @@
     "name": "",
     "x": 670,
     "y": 460,
-    "wires": []
-  },
-  {
-    "id": "5e381be3.a0b864",
-    "type": "debug",
-    "z": "5acb2f70.5e63",
-    "name": "",
-    "active": false,
-    "console": "false",
-    "complete": "false",
-    "x": 1330,
-    "y": 220,
     "wires": []
   },
   {
@@ -369,8 +356,8 @@
     "upsert": false,
     "multi": false,
     "operation": "store",
-    "x": 1200,
-    "y": 60,
+    "x": 1000,
+    "y": 120,
     "wires": []
   },
   {
@@ -459,7 +446,7 @@
     "upsert": false,
     "multi": false,
     "operation": "delete",
-    "x": 620,
+    "x": 640,
     "y": 260,
     "wires": []
   },
@@ -488,7 +475,7 @@
     "func": "msg.payload.type = 'disconnect';\n\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 610,
+    "x": 630,
     "y": 220,
     "wires": [
       [

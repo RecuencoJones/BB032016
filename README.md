@@ -3,10 +3,12 @@
 ## Requirements
 
 - Node installed
+- Node-RED installed `npm i -g node-red`
+- node-red-node-mongodb installed globally `npm i -g node-red-node-mongodb`
 
 ## Import NodeRED Server
 
-Install **node-red** with `npm i -g node-red` and run it with `node-red`
+Run **node-red** with `node-red`
 
 Navigate to [localhost:1880](http://localhost:1880) to open NodeRED webapp.
 
