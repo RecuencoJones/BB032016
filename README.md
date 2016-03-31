@@ -6,6 +6,11 @@
 - Node-RED installed `npm i -g node-red`
 - node-red-node-mongodb installed globally `npm i -g node-red-node-mongodb`
 
+## Settings
+
+Go to `~/.node-red` folder and copy [settings.js](settings.js) file there.
+With this configuration, we will allow node-red to receive CORS requests.
+
 ## Import NodeRED Server
 
 Run **node-red** with `node-red`
@@ -18,7 +23,7 @@ Two options:
 top right corner of NodeRED webapp, open the menu and select import clipboard,
 paste the contents and place the flow into the canvas.
 2. Copy the file [websocket-server.json](websocket-server.json) to your 
-`.node-red/lib/flows` folder, located in your home. Then, from the menu of 
+`~/.node-red/lib/flows` folder, located in your home. Then, from the menu of 
 NodeRED webapp, import library.
 
 You may access [localhost:1880/chat](http://localhost:1880/chat) for a working 
