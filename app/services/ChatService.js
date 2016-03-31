@@ -1,5 +1,7 @@
 import UsersListActions from '../actions/UsersListActions';
 import ChatActions from '../actions/ChatActions';
+import ApiService from '../services/ApiService';
+import UserStore from '../stores/UserStore';
 import Actions from '../constants/Actions';
 import Endpoints from '../constants/Endpoints';
 
@@ -12,16 +14,23 @@ function processAction(rawData) {
     case Actions.Chat.Connect:
       let date = new Date();
 
-      UsersListActions.add(data.user);
+      UsersListActions.add({
+        name: data.name,
+        id: data.id
+      });
+
       ChatActions.add({
         user: 'System',
-        message: data.user.name + ' joined the room.',
+        message: data.name + ' joined the room.',
         time: [
           ('0' + date.getHours()).slice(-2),
           ('0' + date.getMinutes()).slice(-2)
         ].join(':'),
         score: 0
       });
+      break;
+    case Actions.Chat.Disconnect:
+      UsersListActions.remove(data.id);
       break;
     case Actions.Chat.Typing:
       ChatActions.flash({
@@ -57,20 +66,21 @@ const ChatService = {
     };
 
     ws.onopen = () => {
-      this.send({
-        type: Actions.Chat.Connect,
-        user: userName
-      });
-    };
-
-    ws.onclose = () => {
-      ws.close();
-      ws = null;
-      console.log('Closed socket');
+      ApiService.registerUser(userName);
     };
 
     ws.onerror = (error) => {
       console.error('Unexpected socket close [', error.message, ']');
+    };
+
+    window.onbeforeunload = () => {
+      this.send({
+        type: Actions.Chat.Disconnect,
+        user: UserStore.getUser()
+      });
+
+      ws.onclose = () => {};
+      ws.close();
     };
   },
 

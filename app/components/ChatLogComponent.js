@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatStore from '../storages/ChatStore';
+import ChatStore from '../stores/ChatStore';
 import $ from 'jquery';
 
 function setMessageColor(score) {

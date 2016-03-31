@@ -1,5 +1,5 @@
 import React from 'react';
-import UsersListStore from '../storages/UsersListStore';
+import UsersListStore from '../stores/UsersListStore';
 
 const UsersListComponent = React.createClass({
   getInitialState: function() {

@@ -3,7 +3,8 @@ const Endpoints = {
     Host: 'http://localhost:1880',
     Api: {
       Users: '/api/users',
-      Messages: '/api/messages'
+      Messages: '/api/messages',
+      Register: '/api/register'
     }
   },
   WebSocket: 'ws://localhost:1880/ws/broadcast'

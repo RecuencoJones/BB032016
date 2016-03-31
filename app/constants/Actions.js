@@ -5,8 +5,12 @@ const Actions = {
   },
   Chat: {
     Connect: 'connect',
+    Disconnect: 'disconnect',
     Typing: 'typing',
     Message: 'message'
+  },
+  User: {
+    Set: 'set'
   }
 };
 

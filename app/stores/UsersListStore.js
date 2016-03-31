@@ -23,7 +23,7 @@ function add(user) {
  * @param {string} userId - user unique id.
  */
 function remove(userId) {
-  users[userId] = null;
+  delete users[userId];
 }
 
 const UsersListStore = _.assign({}, EventEmitter.prototype, {

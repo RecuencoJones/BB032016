@@ -5,6 +5,9 @@ const Events = {
   Chat: {
     Update: 'updated',
     Typing: 'typing'
+  },
+  User: {
+    Set: 'set'
   }
 };
 

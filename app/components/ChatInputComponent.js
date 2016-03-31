@@ -1,22 +1,26 @@
 import React from 'react';
 import $ from 'jquery';
 import ChatService from '../services/ChatService';
-import Actions from '../constants/Actions';
 import ApiService from '../services/ApiService';
+import Actions from '../constants/Actions';
+import ChatActions from '../actions/ChatActions';
 
 function sendUserName() {
   let input = $('.user-name-input');
 
   let userName = input.val();
+  let date = new Date();
 
   this.setState({
     userName: userName
   });
 
-  ApiService.getMessages();
-  ApiService.getUsers();
-
-  ChatService.connect(userName);
+  Promise.all([
+    ApiService.getMessages(),
+    ApiService.getUsers()
+  ]).then(() => {
+    ChatService.connect(userName);
+  });
 
   input.val('');
 }
